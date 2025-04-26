@@ -1,0 +1,46 @@
+# Build results
+bin/
+obj/
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+# Visual Studio
+.vscode/
+.vs/
+
+# Rider IDE
+.idea/
+
+# MacOS
+.DS_Store
+
+# Logs
+*.log
+
+# Database (if any local db files are created)
+*.db
+
+# Coverage results
+coverage/
+TestResults/
+
+# ASP.NET Core environment-specific
+appsettings.Development.json
+appsettings.Local.json
+
+# Dependency directories
+node_modules/
+
+# Others
+*.tmp
+*.bak
+*.cache
+*.orig
+
+# Docker
+**/Dockerfile
+**/docker-compose.yml

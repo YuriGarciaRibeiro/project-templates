@@ -33,7 +33,6 @@ Each template aims to follow:
 
 - 🛠️ Node.js + Express.js + Clean Architecture
 - 🛠️ Golang + Clean Architecture (Hexagonal)
-- 🛠️ Python + FastAPI + Hexagonal Design
 - 🛠️ ASP.NET Core Minimal APIs with CQRS
 
 (Stay tuned for updates!)
