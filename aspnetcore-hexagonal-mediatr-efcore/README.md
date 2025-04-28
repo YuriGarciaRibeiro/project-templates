@@ -30,6 +30,11 @@ aspnetcore-hexagonal-mediatr-efcore/
 ├── WebAPI/
 │   ├── Controllers/
 │   │   └── UserController.cs
+│   ├── Extensions/
+│   │   ├── AppExtensions.cs
+│   │   └── ServiceExtensions.cs
+│   ├── Middlewares/
+│   │   └── ExceptionHandlingMiddleware.cs
 │   └── Program.cs
 ├── README.md
 └── .gitignore
