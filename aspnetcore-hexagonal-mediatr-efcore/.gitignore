@@ -28,10 +28,6 @@ obj/
 coverage/
 TestResults/
 
-# ASP.NET Core environment-specific
-appsettings.Development.json
-appsettings.Local.json
-
 # Dependency directories
 node_modules/
 
