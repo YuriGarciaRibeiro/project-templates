@@ -41,6 +41,3 @@ node_modules/
 *.cache
 *.orig
 
-# Docker
-**/Dockerfile
-**/docker-compose.yml
