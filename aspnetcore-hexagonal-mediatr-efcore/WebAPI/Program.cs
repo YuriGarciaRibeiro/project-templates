@@ -1,27 +1,10 @@
-using Application.Behaviors;
-using Core.Interfaces;
-using Infrastructure.Persistence;
-using MediatR;
-using FluentValidation;
-using Microsoft.EntityFrameworkCore;
-using Application.UserCases.CreateUser;
-using WebAPI.Middleware;
+using WebAPI.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateUserCommand).Assembly));
-
-builder.Services.AddValidatorsFromAssemblyContaining<CreateUserCommandHandlerValidator>();
-builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+builder.Services.AddProjectServices(builder.Configuration);
 
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -29,7 +12,7 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.UseMiddlewares();
 
 
 app.MapControllers();
