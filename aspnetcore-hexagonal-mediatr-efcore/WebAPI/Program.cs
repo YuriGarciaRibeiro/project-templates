@@ -2,18 +2,26 @@ using WebAPI.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddProjectServices(builder.Configuration);
+// Services
+builder.AddSwagger()
+       .AddDatabase(builder.Configuration)
+       .AddMediatR()
+       .AddRepositories()
+       .AddServices();
 
 builder.Services.AddControllers();
 
 var app = builder.Build();
 
-// Configure middleware
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
+
+app.UseHttpsRedirection();
+
 app.UseMiddlewares();
 
-
 app.MapControllers();
+
 app.Run();

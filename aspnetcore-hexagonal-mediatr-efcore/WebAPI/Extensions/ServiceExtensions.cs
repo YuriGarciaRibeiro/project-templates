@@ -5,82 +5,52 @@ using FluentValidation;
 using Infrastructure.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection;
+
 
 namespace WebAPI.Extensions;
 
 public static class ServiceExtensions
 {
-    public static IServiceCollection AddServices(this IServiceCollection services)
+    public static WebApplicationBuilder AddServices(this WebApplicationBuilder builder)
     {
         // ADD YOUR SERVICES HERE
-        return services;
+        return builder;
     }
 
-    public static IServiceCollection AddRepositories(this IServiceCollection services)
+    public static WebApplicationBuilder AddRepositories(this WebApplicationBuilder builder)
     {
         // ADD YOUR REPOSITORIES HERE
-        services.AddScoped<IUserRepository, UserRepository>();
+        builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-        return services;
+        return builder;
     }
 
-    public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
+    public static WebApplicationBuilder AddDatabase(this WebApplicationBuilder builder, IConfiguration configuration)
     {
         // ADD YOUR DATABASE CONTEXT HERE
-        services.AddDbContext<AppDbContext>(options =>
+        builder.Services.AddDbContext<AppDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
-        return services;
+        return builder;
     }
 
-    public static IServiceCollection AddMediatR(this IServiceCollection services)
+    public static WebApplicationBuilder AddMediatR(this WebApplicationBuilder builder)
     {   
         // ADD YOUR MEDIATR HANDLERS HERE
-        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateUserCommand).Assembly));
-        services.AddValidatorsFromAssemblyContaining<CreateUserCommandHandlerValidator>();
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+        builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateUserCommand).Assembly));
+        builder.Services.AddValidatorsFromAssemblyContaining<CreateUserCommandHandlerValidator>();
+        builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
-        return services;
+        return builder;
     }
 
-    public static IServiceCollection AddSwagger(this IServiceCollection services)
+    public static WebApplicationBuilder AddSwagger(this WebApplicationBuilder builder)
     {
         // ADD YOUR SWAGGER HERE
-        services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen(c =>
-        {
-            c.SwaggerDoc("v1", new() { Title = "My API", Version = "v1" });
-        });
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
 
-        return services;
-    }
-
-    public static IServiceCollection AddCors(this IServiceCollection services)
-    {
-        // ADD YOUR CORS HERE
-        services.AddCors(options =>
-        {
-            options.AddPolicy("AllowAllOrigins",
-                builder => builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader());
-        });
-
-        return services;
-    }
-
-    public static IServiceCollection AddProjectServices(this IServiceCollection services,IConfiguration configuration)
-    {
-        // ADD YOUR PROJECT SERVICES HERE
-        services.AddCors();
-        services.AddSwagger();
-        services.AddMediatR();
-        services.AddServices();
-        services.AddRepositories();
-        services.AddDatabase(configuration);
-
-        return services;
+        return builder;
     }
 
 }
